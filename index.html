@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#071b43" />
+    <meta name="description" content="金融行业自主私域 App 交互演示" />
+    <title>金脉 · 金融私域 App Demo</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="demo-shell">
+      <section class="context-panel" aria-label="方案说明">
+        <div class="brand-mark"><span>金</span><div><strong>金脉</strong><small>金融私域 App Demo</small></div></div>
+        <div class="context-copy">
+          <p class="eyebrow">PRIVATE FINANCE HUB</p>
+          <h1>把平台上的用户关系，<em>沉淀为自己的私域资产。</em></h1>
+          <p class="lede">以圈子为关系载体，以消息推送为触达引擎，把课程、直播、投研和会员服务连成一条持续运营链路。</p>
+        </div>
+        <div class="risk-grid">
+          <div class="risk-card"><b>平台限制</b><span>触达、内容、交易、数据与业务连续性受规则影响</span></div>
+          <div class="risk-card risk-card--active"><b>自有能力</b><span>圈子、Push、用户标签、内容沉淀与服务闭环</span></div>
+        </div>
+        <div class="journey-note"><span class="journey-dot"></span><div><b>演示路径</b><p>首页 → 圈子 → 消息 → 直播 → 回放讨论 → 服务转化</p></div></div>
+        <div class="demo-controls" aria-label="展示页主题与关怀版设置">
+          <div><b>展示主题</b><button class="theme-swatch theme-swatch--navy active" data-theme-choice="navy" aria-label="深海蓝主题"></button><button class="theme-swatch theme-swatch--warm" data-theme-choice="warm" aria-label="暖金棕主题"></button><button class="theme-swatch theme-swatch--green" data-theme-choice="green" aria-label="青绿科技主题"></button></div>
+          <button class="care-toggle" data-action="toggle-care" aria-pressed="false">关怀版（大字）</button>
+        </div>
+        <p class="source-note">演示范围：圈子运营、课程学习、直播服务、消息触达与合规能力。</p>
+      </section>
+
+      <section class="phone-frame" aria-label="金脉 App 交互演示">
+        <div class="phone-notch"></div>
+        <div class="phone-status"><span>9:41</span><span>● ● ▰</span></div>
+        <div id="app" class="app"></div>
+      </section>
+    </main>
+    <script type="module" src="./app.js"></script>
+  </body>
+</html>
