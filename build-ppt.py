@@ -15,6 +15,7 @@ from pptx.util import Inches, Pt
 ROOT = Path(__file__).parent
 OUT = ROOT / os.environ.get("PPT_OUT", "金融客户定制App产品方案-演示版.pptx")
 SHOT = ROOT / "screenshots"
+ASSET = ROOT / "assets"
 TEXT_DIR = Path(tempfile.mkdtemp(prefix="finance-ppt-text-"))
 TEXT_FONT = "/System/Library/Fonts/STHeiti Medium.ttc"
 TEXT_SCALE = 2
@@ -119,6 +120,17 @@ def title(slide, kicker, heading, page):
 def add_phone(slide, filename, x, y, w=2.55, h=5.35):
     """Place the real demo screenshot inside a box without changing its aspect ratio."""
     source = SHOT / filename
+    with Image.open(source) as image:
+        ratio = image.height / image.width
+    shown_h = min(h, w * ratio)
+    shown_w = shown_h / ratio
+    slide.shapes.add_picture(str(source), Inches(x), Inches(y), width=Inches(shown_w), height=Inches(shown_h))
+    return shown_w, shown_h
+
+
+def add_asset(slide, filename, x, y, w, h):
+    """Place an image without distortion, matching the image treatment used in the H5 demo."""
+    source = ASSET / filename
     with Image.open(source) as image:
         ratio = image.height / image.width
     shown_h = min(h, w * ratio)
@@ -441,9 +453,35 @@ add_phone(slide, "08-market.png", 4.6, 4.55, 1.2, 2.55)
 add_phone(slide, "09-profile.png", 6.4, 4.55, 1.2, 2.55)
 text(slide, "Demo 示意：学习、圈子、消息与会员在同一产品内形成连续服务。", 8.35, 5.1, 3.5, 0.6, 13, NAVY, True)
 
-# 13. Brand / backend / custom development / compliance
+# 13. AI capability
 slide = new_slide(prs)
-title(slide, "12 / PLATFORM CAPABILITY", "品牌、后台与合规能力", 13)
+title(slide, "12 / AI SERVICE", "AI 助手：接入客户 Agent，或定制金融服务 Agent", 13)
+text(slide, "把客户已经拥有的内容、知识库和服务流程，转成 App 内可用的服务入口。", 0.85, 1.42, 10.5, 0.35, 15, NAVY, True)
+for i, (heading, copy, color) in enumerate([
+    ("接入客户现有 Agent", "复用客户知识库、Agent 编排与权限体系；App 提供品牌化入口、用户身份和服务上下文。", BLUE),
+    ("定制金融服务 Agent", "围绕课程、直播回放、圈子内容、FAQ 和服务 SOP 定制内容检索、学习辅助与服务分流能力。", RGBColor(38,151,125)),
+]):
+    x = 0.85 + i * 5.85
+    rect(slide, x, 2.08, 5.25, 1.48, WHITE, True, LINE)
+    rect(slide, x, 2.08, 5.25, 0.13, color, True)
+    text(slide, heading, x + 0.25, 2.38, 4.55, 0.25, 15, NAVY, True)
+    text(slide, copy, x + 0.25, 2.8, 4.55, 0.5, 10, MUTED)
+text(slide, "Demo 中的服务体验", 0.85, 4.18, 3.0, 0.25, 15, NAVY, True)
+for i, (heading, copy, color) in enumerate([
+    ("内容检索与总结", "定位课程、直播、圈子和已授权知识内容", BLUE),
+    ("课程与直播辅助", "梳理重点、关联资料、继续学习与任务引导", GOLD),
+    ("服务引导与人工转接", "按客户 SOP 分流至客服、顾问或企微服务", RGBColor(38,151,125)),
+]):
+    x = 0.85 + i * 3.75
+    rect(slide, x, 4.65, 3.3, 1.15, WHITE, True, LINE)
+    rect(slide, x + 0.2, 4.9, 0.36, 0.36, color, True)
+    text(slide, heading, x + 0.72, 4.85, 2.25, 0.22, 12, NAVY, True)
+    text(slide, copy, x + 0.2, 5.38, 2.8, 0.28, 9, MUTED)
+text(slide, "AI 用于信息整理、学习辅助与服务引导；不构成投资建议或收益承诺。", 0.85, 6.32, 9.8, 0.28, 12, RGBColor(143, 92, 41), True)
+
+# 14. Brand / backend / custom development / compliance
+slide = new_slide(prs)
+title(slide, "13 / PLATFORM CAPABILITY", "品牌、后台与合规能力", 14)
 for i, (a, b, c) in enumerate([
     ("品牌能力", "Logo、主题色、首页 Banner、Tab 和页面风格可定制", BLUE),
     ("后台能力", "内容、课程、圈子、直播、消息和用户标签统一运营", GOLD),
@@ -469,9 +507,9 @@ text(slide, "深海蓝  ·  暖金棕  ·  青绿科技", 2.05, 6.2, 2.35, 0.18,
 rect(slide, 4.55, 6.15, 1.25, 0.3, BLUE, True)
 text(slide, "关怀版（大字）", 4.64, 6.21, 1.08, 0.14, 8, WHITE, True, PP_ALIGN.CENTER)
 
-# 14. Compliance, security and deployment
+# 15. Compliance, security and deployment
 slide = new_slide(prs, PALE)
-title(slide, "13 / COMPLIANCE & SECURITY", "合规展示、信息安全与部分私有化部署", 14)
+title(slide, "14 / COMPLIANCE & SECURITY", "合规展示、信息安全与部分私有化部署", 15)
 text(slide, "把合规要求做成产品能力，把数据边界做成部署选项。", 0.85, 1.35, 8.5, 0.3, 15, NAVY, True)
 security_items = [
     ("合规组件", "R3/C3 适当性文案、风险提示、执业信息、隐私协议与 SDK 披露", BLUE),
@@ -498,7 +536,7 @@ text(slide, "平台侧可选能力", 8.28, 4.42, 2.6, 0.2, 13, WHITE, True, PP_A
 text(slide, "内容运营 / 消息 / 直播 / 版本服务", 8.28, 4.71, 2.6, 0.18, 9, RGBColor(195, 235, 226), False, PP_ALIGN.CENTER)
 text(slide, "部署组合需结合客户主体、数据分类分级与法务/安全评审确认。", 7.78, 5.55, 3.55, 0.45, 10, RGBColor(190, 211, 240), False, PP_ALIGN.CENTER)
 
-# 15. Implementation and outcomes
+# 16. Implementation and outcomes
 slide = new_slide(prs, NAVY)
 text(slide, "实施路径与预期业务结果", 0.85, 0.8, 7.8, 0.5, 28, WHITE, True)
 text(slide, "平台负责获客，自有 App 负责沉淀；平台负责分发，自有圈子负责经营。", 0.85, 1.55, 10.5, 0.32, 16, RGBColor(205,218,240))
