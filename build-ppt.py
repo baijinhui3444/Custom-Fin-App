@@ -272,7 +272,6 @@ text(slide, "金融行业自主私域 App 方案", 0.78, 0.9, 4.8, 0.3, 12, GOLD
 text(slide, "金融行业自主私域\nApp 产品方案", 0.78, 1.72, 7.0, 1.35, 36, WHITE, True)
 text(slide, "面向金融客户的内容服务、私域运营与品牌化阵地建设", 0.82, 3.58, 7.4, 0.55, 16, RGBColor(210, 225, 247))
 text(slide, "圈子运营  ·  消息触达  ·  投教学习  ·  直播服务  ·  会员承接", 0.82, 5.55, 8.5, 0.3, 12, RGBColor(210, 225, 247))
-text(slide, "产品方案稿  ·  2026", 0.82, 6.65, 4, 0.25, 10, RGBColor(176, 198, 227))
 text(slide, "小鹅通·金融BU", 0.7, 7.13, 2.0, 0.18, 8, RGBColor(210, 226, 250), False)
 
 # 2. Platform dependence
@@ -385,8 +384,8 @@ slide = new_slide(prs, PALE)
 title(slide, "07 / PRIVATE CIRCLE", "圈子：金融私域的核心承载", 8)
 add_phone(slide, "05-circles.png", 0.78, 1.55, 2.25, 5.18)
 add_phone(slide, "06-circle-detail.png", 3.48, 1.55, 2.25, 5.18)
-text(slide, "圈子不是简单群聊，而是结构化、可持续运营的内容社区。", 6.9, 1.5, 5.3, 0.55, 15, NAVY, True)
-for i, (a, b) in enumerate([("分层运营", "官方圈子、课程圈子、讲师圈子、VIP 圈子"), ("内容沉淀", "动态、回放、研报、问答和精选内容长期留存"), ("关系经营", "圈主置顶、评论互动、IM 群聊与成员活跃"), ("服务连接", "课程、直播、会员、顾问单聊和人工转接都能回流到圈子")]):
+text(slide, "圈子承载内容、文字直播间和服务关系。", 6.9, 1.5, 5.3, 0.55, 15, NAVY, True)
+for i, (a, b) in enumerate([("分层运营", "官方圈子、课程圈子、讲师圈子、VIP 圈子"), ("内容沉淀", "动态、回放、研报、问答和精选内容长期留存"), ("关系经营", "圈主置顶、评论互动、文字直播间与成员活跃"), ("服务连接", "课程、直播、会员、顾问答疑和人工转接都能回流到圈子")]):
     bullet(slide, a, b, 6.9, 2.15 + i * 0.92, 5.3, [BLUE, GOLD, RGBColor(38,151,125), RGBColor(190,78,91)][i])
 
 # 9. Circle interactions
@@ -394,7 +393,7 @@ slide = new_slide(prs)
 title(slide, "08 / CIRCLE OPERATION", "圈子内的内容与用户互动", 9)
 for i, (a, b, c, icon) in enumerate([
     ("内容发布", "观点、盘前策略、课程笔记、直播回放", BLUE, "content"),
-    ("互动反馈", "评论回复、IM 群聊、顾问单聊与人工转接", RGBColor(38,151,125), "interaction"),
+    ("互动反馈", "评论回复、文字直播间、顾问答疑与人工转接", RGBColor(38,151,125), "interaction"),
     ("主题运营", "话题、活动、打卡、问答和精选", GOLD, "topic"),
     ("关系转化", "圈友 → 学习用户 → 会员 / 投顾服务", RGBColor(190,78,91), "conversion"),
 ]):
@@ -404,7 +403,7 @@ for i, (a, b, c, icon) in enumerate([
     slide.shapes.add_picture(str(make_icon(icon, c)), Inches(x + 0.14), Inches(y + 0.13), width=Inches(0.56), height=Inches(0.56))
     text(slide, a, x + 0.85, y + 0.2, 2.0, 0.25, 14, NAVY, True)
     text(slide, b, x + 0.85, y + 0.62, 3.95, 0.32, 11, MUTED)
-text(slide, "圈子运营的目标：让用户有内容可看、有关系可互动、有服务可继续。", 0.85, 5.45, 10.5, 0.35, 16, BLUE, True)
+text(slide, "文字直播间把圈子内容延伸为实时互动和服务承接。", 0.85, 5.45, 10.5, 0.35, 16, BLUE, True)
 text(slide, "示意页面：圈子详情承载内容、成员关系与服务入口。", 8.85, 5.65, 3.0, 0.5, 12, MUTED)
 
 # 10. Push
@@ -427,7 +426,7 @@ title(slide, "10 / IM SERVICE", "IM：把一次触达，延伸为持续服务", 
 text(slide, "金融场景常见的 IM 不是单独聊天工具，而是连接客户、讲师、顾问和服务团队的业务入口。", 0.85, 1.38, 11.1, 0.35, 15, NAVY, True)
 im_scenarios = [
     ("客户与顾问", "一对一咨询、服务分流、会话留痕", BLUE),
-    ("圈子与群聊", "课程群、会员群、直播讨论和主题群", RGBColor(38,151,125)),
+    ("圈子与文字直播间", "课程群、会员群、实时文字互动和主题群", RGBColor(38,151,125)),
     ("内容服务", "资料发送、回放提醒、问答与人工转接", GOLD),
 ]
 for i, (heading, copy, color) in enumerate(im_scenarios):
@@ -436,13 +435,11 @@ for i, (heading, copy, color) in enumerate(im_scenarios):
     rect(slide, x, 1.98, 3.35, 0.12, color, True)
     text(slide, heading, x + 0.22, 2.26, 2.8, 0.22, 14, NAVY, True)
     text(slide, copy, x + 0.22, 2.66, 2.8, 0.28, 10, MUTED)
-text(slide, "可选供应商（示意）", 0.85, 3.62, 3.0, 0.25, 15, NAVY, True)
+text(slide, "IM 接入方案（示意）", 0.85, 3.62, 3.0, 0.25, 15, NAVY, True)
 vendors = [
     ("腾讯云 IM", "国内生态与账号体系衔接", "社交关系、群聊、消息能力", BLUE),
-    ("网易云信", "音视频与 IM 组合", "直播互动、群聊、内容服务", RGBColor(38,151,125)),
-    ("融云", "IM 能力组件化接入", "单聊、群聊、客服与会话", GOLD),
-    ("环信", "客服与运营场景", "客户咨询、工单与消息触达", RGBColor(190,78,91)),
-    ("声网 Chat", "实时互动场景", "直播互动、聊天室与多端接入", RGBColor(123,151,210)),
+    ("其他 IM 厂商", "可按项目接入", "结合客户现有技术栈、账号体系和部署要求", RGBColor(38,151,125)),
+    ("选型原则", "以客户安全与合规边界为准", "数据边界、消息审计、部署方式、服务连续性", GOLD),
 ]
 for i, (vendor, fit, scene, color) in enumerate(vendors):
     y = 4.05 + i * 0.48
@@ -451,7 +448,7 @@ for i, (vendor, fit, scene, color) in enumerate(vendors):
     text(slide, vendor, 1.38, y + 0.08, 1.45, 0.16, 10, NAVY, True)
     text(slide, fit, 3.1, y + 0.08, 2.9, 0.16, 9, MUTED)
     text(slide, scene, 6.3, y + 0.08, 4.7, 0.16, 9, MUTED)
-text(slide, "选型需结合客户已有账号体系、数据边界、消息审计、部署方式与合规评审；供应商可按项目实际情况组合。", 0.85, 6.62, 11.4, 0.28, 10, RGBColor(143, 92, 41), True)
+text(slide, "腾讯云 IM 可作为默认接入方案；其他 IM 厂商可按客户现有技术栈、数据边界与合规评审结果接入。", 0.85, 6.62, 11.4, 0.28, 10, RGBColor(143, 92, 41), True)
 
 # 12. Segmentation
 slide = new_slide(prs)
