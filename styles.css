@@ -267,6 +267,14 @@ button:focus-visible { outline: 3px solid rgba(39, 102, 216, .28); outline-offse
 .message b { display: block; font-size: 11px; }
 .message p { margin: 4px 0 0; color: var(--muted); font-size: 10px; line-height: 1.5; }
 .message time { color: #a4adbc; font-size: 9px; }
+.im-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 7px; }
+.im-grid button { display: grid; justify-items: center; gap: 4px; min-width: 0; padding: 10px 4px; color: var(--ink); background: var(--surface); border: 1px solid var(--line); border-radius: 7px; }
+.im-grid i { width: 28px; height: 28px; display: grid; place-items: center; color: #fff; background: var(--navy-2); border-radius: 8px; font-style: normal; font-size: 10px; font-weight: 800; }
+.im-grid button:nth-child(2) i { background: var(--green); }
+.im-grid button:nth-child(3) i { background: var(--gold); color: var(--navy); }
+.im-grid button:nth-child(4) i { background: var(--red); }
+.im-grid b { font-size: 9px; }
+.im-grid span { color: var(--muted); font-size: 8px; }
 .market-strip { display: grid; grid-template-columns: repeat(3, 1fr); gap: 7px; padding: 12px 15px; background: var(--navy); }
 .market-strip div { padding-right: 7px; border-right: 1px solid rgba(255,255,255,.14); }
 .market-strip div:last-child { border: 0; }

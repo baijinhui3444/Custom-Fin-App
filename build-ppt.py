@@ -366,7 +366,7 @@ text(slide, "共同趋势：内容是入口，圈子和消息是留存，会员�
 # 7. Architecture
 slide = new_slide(prs)
 title(slide, "06 / PRODUCT BLUEPRINT", "自有 App 的整体产品架构", 7)
-layers = [("内容层", "课程 · 直播 · 资讯 · 研报", BLUE), ("互动层", "圈子 · 话题 · 评论 · 问答", RGBColor(38,151,125)), ("服务层", "行情 · 投顾 · 会员 · 订单", GOLD), ("运营层", "Push · 标签 · 召回 · 数据", RGBColor(190,78,91))]
+layers = [("内容层", "课程 · 直播 · 资讯 · 研报", BLUE), ("互动层", "圈子 · 话题 · 评论 · 问答", RGBColor(38,151,125)), ("服务层", "行情 · 投顾 · 会员 · 订单", GOLD), ("运营层", "Push · IM · 标签 · 召回 · 数据", RGBColor(190,78,91))]
 for i, (a, b, c) in enumerate(layers):
     y = 1.75 + i * 0.92
     rect(slide, 0.9, y, 6.45, 0.65, WHITE, True, LINE)
@@ -419,11 +419,43 @@ for i, (a, b, c) in enumerate(messages):
     rect(slide, 4.45, y + 0.17, 0.28, 0.28, c, True)
     text(slide, a, 4.95, y + 0.16, 1.25, 0.2, 12, NAVY, True)
     text(slide, b, 6.55, y + 0.16, 4.55, 0.2, 11, MUTED)
-text(slide, "平台触达不稳定 → 自有 App 通过 Push + 站内消息 + 用户标签建立可控链路。", 4.25, 6.1, 7.7, 0.3, 14, BLUE, True)
+text(slide, "平台触达不稳定 → 自有 App 通过 Push + 站内消息 + IM + 用户标签建立可控链路。", 4.25, 6.1, 7.7, 0.3, 14, BLUE, True)
 
-# 11. Segmentation
+# 11. IM capability and vendor selection
 slide = new_slide(prs)
-title(slide, "10 / USER OPERATIONS", "用户分层与召回运营", 11)
+title(slide, "10 / IM SERVICE", "IM：把一次触达，延伸为持续服务", 11)
+text(slide, "金融场景常见的 IM 不是单独聊天工具，而是连接客户、讲师、顾问和服务团队的业务入口。", 0.85, 1.38, 11.1, 0.35, 15, NAVY, True)
+im_scenarios = [
+    ("客户与顾问", "一对一咨询、服务分流、会话留痕", BLUE),
+    ("圈子与群聊", "课程群、会员群、直播讨论和主题群", RGBColor(38,151,125)),
+    ("内容服务", "资料发送、回放提醒、问答与人工转接", GOLD),
+]
+for i, (heading, copy, color) in enumerate(im_scenarios):
+    x = 0.85 + i * 3.95
+    rect(slide, x, 1.98, 3.35, 1.1, WHITE, True, LINE)
+    rect(slide, x, 1.98, 3.35, 0.12, color, True)
+    text(slide, heading, x + 0.22, 2.26, 2.8, 0.22, 14, NAVY, True)
+    text(slide, copy, x + 0.22, 2.66, 2.8, 0.28, 10, MUTED)
+text(slide, "可选供应商（示意）", 0.85, 3.62, 3.0, 0.25, 15, NAVY, True)
+vendors = [
+    ("腾讯云 IM", "国内生态与账号体系衔接", "社交关系、群聊、消息能力", BLUE),
+    ("网易云信", "音视频与 IM 组合", "直播互动、群聊、内容服务", RGBColor(38,151,125)),
+    ("融云", "IM 能力组件化接入", "单聊、群聊、客服与会话", GOLD),
+    ("环信", "客服与运营场景", "客户咨询、工单与消息触达", RGBColor(190,78,91)),
+    ("声网 Chat", "实时互动场景", "直播互动、聊天室与多端接入", RGBColor(123,151,210)),
+]
+for i, (vendor, fit, scene, color) in enumerate(vendors):
+    y = 4.05 + i * 0.48
+    rect(slide, 0.85, y, 11.55, 0.36, WHITE, True, LINE)
+    rect(slide, 1.05, y + 0.08, 0.12, 0.2, color, True)
+    text(slide, vendor, 1.38, y + 0.08, 1.45, 0.16, 10, NAVY, True)
+    text(slide, fit, 3.1, y + 0.08, 2.9, 0.16, 9, MUTED)
+    text(slide, scene, 6.3, y + 0.08, 4.7, 0.16, 9, MUTED)
+text(slide, "选型需结合客户已有账号体系、数据边界、消息审计、部署方式与合规评审；供应商可按项目实际情况组合。", 0.85, 6.62, 11.4, 0.28, 10, RGBColor(143, 92, 41), True)
+
+# 12. Segmentation
+slide = new_slide(prs)
+title(slide, "11 / USER OPERATIONS", "用户分层与召回运营", 12)
 segments = [("新用户", "欢迎、首课、风险提示", BLUE), ("学习用户", "续学提醒、作业、训练营", GOLD), ("活跃圈友", "话题、直播、专家互动", RGBColor(38,151,125)), ("会员用户", "专属圈子、策略会、客服", RGBColor(190,78,91)), ("沉默用户", "内容召回、权益到期、活动", RGBColor(123,151,210))]
 for i, (a, b, c) in enumerate(segments):
     x = 0.75 + i * 2.48
@@ -434,12 +466,12 @@ for i, (a, b, c) in enumerate(segments):
 text(slide, "标签来源", 0.85, 4.05, 1.0, 0.22, 12, NAVY, True)
 text(slide, "学习进度 / 圈子行为 / 直播预约 / 会员状态 / 消息点击", 2.0, 4.05, 8.0, 0.22, 12, MUTED)
 text(slide, "运营动作", 0.85, 4.75, 1.0, 0.22, 12, NAVY, True)
-text(slide, "内容推荐 → 圈子互动 → Push 触达 → 服务转化 → 复购召回", 2.0, 4.75, 8.0, 0.22, 12, BLUE, True)
+text(slide, "内容推荐 → 圈子互动 → Push / IM 触达 → 服务转化 → 复购召回", 2.0, 4.75, 8.0, 0.22, 12, BLUE, True)
 text(slide, "从“群发所有人”升级为“对的人，在合适的时机，收到合适的内容”。", 0.85, 6.05, 9.8, 0.3, 16, NAVY, True)
 
-# 12. Linkage
+# 13. Linkage
 slide = new_slide(prs, PALE)
-title(slide, "11 / CONTENT TO SERVICE", "内容、直播、圈子和会员联动", 12)
+title(slide, "12 / CONTENT TO SERVICE", "内容、直播、圈子和会员联动", 13)
 for i, (a, b, c) in enumerate([("内容", "课程 / 资讯 / 研报", BLUE), ("直播", "预约 / 互动 / 回放", GOLD), ("圈子", "讨论 / 问答 / 关系", RGBColor(38,151,125)), ("会员", "权益 / 工具 / 服务", RGBColor(190,78,91))]):
     x = 0.85 + i * 3.05
     rect(slide, x, 2.2, 2.45, 1.15, c, True)
@@ -453,9 +485,9 @@ add_phone(slide, "08-market.png", 4.6, 4.55, 1.2, 2.55)
 add_phone(slide, "09-profile.png", 6.4, 4.55, 1.2, 2.55)
 text(slide, "Demo 示意：学习、圈子、消息与会员在同一产品内形成连续服务。", 8.35, 5.1, 3.5, 0.6, 13, NAVY, True)
 
-# 13. AI capability
+# 14. AI capability
 slide = new_slide(prs)
-title(slide, "12 / AI SERVICE", "AI 助手：接入客户 Agent，或定制金融服务 Agent", 13)
+title(slide, "13 / AI SERVICE", "AI 助手：接入客户 Agent，或定制金融服务 Agent", 14)
 text(slide, "把客户已经拥有的内容、知识库和服务流程，转成 App 内可用的服务入口。", 0.85, 1.42, 10.5, 0.35, 15, NAVY, True)
 for i, (heading, copy, color) in enumerate([
     ("接入客户现有 Agent", "复用客户知识库、Agent 编排与权限体系；App 提供品牌化入口、用户身份和服务上下文。", BLUE),
@@ -479,9 +511,9 @@ for i, (heading, copy, color) in enumerate([
     text(slide, copy, x + 0.2, 5.38, 2.8, 0.28, 9, MUTED)
 text(slide, "AI 用于信息整理、学习辅助与服务引导；不构成投资建议或收益承诺。", 0.85, 6.32, 9.8, 0.28, 12, RGBColor(143, 92, 41), True)
 
-# 14. Brand / backend / custom development / compliance
+# 15. Brand / backend / custom development / compliance
 slide = new_slide(prs)
-title(slide, "13 / PLATFORM CAPABILITY", "品牌、后台与合规能力", 14)
+title(slide, "14 / PLATFORM CAPABILITY", "品牌、后台与合规能力", 15)
 for i, (a, b, c) in enumerate([
     ("品牌能力", "Logo、主题色、首页 Banner、Tab 和页面风格可定制", BLUE),
     ("后台能力", "内容、课程、圈子、直播、消息和用户标签统一运营", GOLD),
@@ -507,9 +539,9 @@ text(slide, "深海蓝  ·  暖金棕  ·  青绿科技", 2.05, 6.2, 2.35, 0.18,
 rect(slide, 4.55, 6.15, 1.25, 0.3, BLUE, True)
 text(slide, "关怀版（大字）", 4.64, 6.21, 1.08, 0.14, 8, WHITE, True, PP_ALIGN.CENTER)
 
-# 15. Compliance, security and deployment
+# 16. Compliance, security and deployment
 slide = new_slide(prs, PALE)
-title(slide, "14 / COMPLIANCE & SECURITY", "合规展示、信息安全与部分私有化部署", 15)
+title(slide, "15 / COMPLIANCE & SECURITY", "合规展示、信息安全与部分私有化部署", 16)
 text(slide, "把合规要求做成产品能力，把数据边界做成部署选项。", 0.85, 1.35, 8.5, 0.3, 15, NAVY, True)
 security_items = [
     ("合规组件", "R3/C3 适当性文案、风险提示、执业信息、隐私协议与 SDK 披露", BLUE),
@@ -536,11 +568,11 @@ text(slide, "平台侧可选能力", 8.28, 4.42, 2.6, 0.2, 13, WHITE, True, PP_A
 text(slide, "内容运营 / 消息 / 直播 / 版本服务", 8.28, 4.71, 2.6, 0.18, 9, RGBColor(195, 235, 226), False, PP_ALIGN.CENTER)
 text(slide, "部署组合需结合客户主体、数据分类分级与法务/安全评审确认。", 7.78, 5.55, 3.55, 0.45, 10, RGBColor(190, 211, 240), False, PP_ALIGN.CENTER)
 
-# 16. Implementation and outcomes
+# 17. Implementation and outcomes
 slide = new_slide(prs, NAVY)
 text(slide, "实施路径与预期业务结果", 0.85, 0.8, 7.8, 0.5, 28, WHITE, True)
 text(slide, "平台负责获客，自有 App 负责沉淀；平台负责分发，自有圈子负责经营。", 0.85, 1.55, 10.5, 0.32, 16, RGBColor(205,218,240))
-phases = [("阶段 1", "品牌与基础阵地", "首页 / 学习 / 我的 / 登录 / 合规", BLUE), ("阶段 2", "私域运营能力", "圈子 / 消息 / Push / 直播预约", GOLD), ("阶段 3", "服务与定制开发", "投研 / 会员 / 标签 / 召回 / 定制需求开发", RGBColor(38,151,125))]
+phases = [("阶段 1", "品牌与基础阵地", "首页 / 学习 / 我的 / 登录 / 合规", BLUE), ("阶段 2", "私域运营能力", "圈子 / 消息 / Push / IM / 直播预约", GOLD), ("阶段 3", "服务与定制开发", "投研 / 会员 / 标签 / 召回 / 定制需求开发", RGBColor(38,151,125))]
 for i, (a, b, c, color) in enumerate(phases):
     x = 0.9 + i * 4.05
     rect(slide, x, 2.55, 3.35, 1.55, color, True)
