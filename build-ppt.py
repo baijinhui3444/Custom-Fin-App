@@ -385,8 +385,8 @@ slide = new_slide(prs, PALE)
 title(slide, "07 / PRIVATE CIRCLE", "圈子：金融私域的核心承载", 8)
 add_phone(slide, "05-circles.png", 0.78, 1.55, 2.25, 5.18)
 add_phone(slide, "06-circle-detail.png", 3.48, 1.55, 2.25, 5.18)
-text(slide, "圈子不是简单群聊，而是结构化、可持续运营的内容社区。", 6.9, 1.5, 5.3, 0.35, 16, NAVY, True)
-for i, (a, b) in enumerate([("分层运营", "官方圈子、课程圈子、讲师圈子、VIP 圈子"), ("内容沉淀", "动态、回放、研报、问答和精选内容长期留存"), ("关系经营", "圈主置顶、评论互动、话题讨论与成员活跃"), ("服务连接", "课程、直播、会员和投顾服务都能回流到圈子")]):
+text(slide, "圈子不是简单群聊，而是结构化、可持续运营的内容社区。", 6.9, 1.5, 5.3, 0.55, 15, NAVY, True)
+for i, (a, b) in enumerate([("分层运营", "官方圈子、课程圈子、讲师圈子、VIP 圈子"), ("内容沉淀", "动态、回放、研报、问答和精选内容长期留存"), ("关系经营", "圈主置顶、评论互动、IM 群聊与成员活跃"), ("服务连接", "课程、直播、会员、顾问单聊和人工转接都能回流到圈子")]):
     bullet(slide, a, b, 6.9, 2.15 + i * 0.92, 5.3, [BLUE, GOLD, RGBColor(38,151,125), RGBColor(190,78,91)][i])
 
 # 9. Circle interactions
@@ -394,7 +394,7 @@ slide = new_slide(prs)
 title(slide, "08 / CIRCLE OPERATION", "圈子内的内容与用户互动", 9)
 for i, (a, b, c, icon) in enumerate([
     ("内容发布", "观点、盘前策略、课程笔记、直播回放", BLUE, "content"),
-    ("互动反馈", "点赞、评论、回复、收藏和关注", RGBColor(38,151,125), "interaction"),
+    ("互动反馈", "评论回复、IM 群聊、顾问单聊与人工转接", RGBColor(38,151,125), "interaction"),
     ("主题运营", "话题、活动、打卡、问答和精选", GOLD, "topic"),
     ("关系转化", "圈友 → 学习用户 → 会员 / 投顾服务", RGBColor(190,78,91), "conversion"),
 ]):

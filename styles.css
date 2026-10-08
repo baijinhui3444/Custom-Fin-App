@@ -226,6 +226,11 @@ button:focus-visible { outline: 3px solid rgba(39, 102, 216, .28); outline-offse
 .detail-actions { display: flex; gap: 8px; margin: 14px 15px 0; }
 .detail-actions button { flex: 1; padding: 10px; color: var(--navy); background: var(--surface); border: 1px solid var(--line); border-radius: 6px; font-size: 10px; font-weight: 800; }
 .detail-actions button.primary { color: #fff; background: var(--blue); border-color: var(--blue); }
+.circle-im-entry { display: grid; grid-template-columns: 30px 1fr auto; gap: 9px; align-items: center; width: calc(100% - 30px); margin: 10px 15px 0; padding: 10px; color: var(--ink); background: #eef8f5; border: 1px solid #cce9df; border-radius: 7px; text-align: left; }
+.circle-im-entry > span { width: 30px; height: 30px; display: grid; place-items: center; color: #fff; background: var(--green); border-radius: 7px; font-size: 9px; font-weight: 900; }
+.circle-im-entry b { display: block; font-size: 10px; }
+.circle-im-entry small { display: block; margin-top: 3px; color: var(--muted); font-size: 8px; }
+.circle-im-entry strong { color: var(--green); font-size: 16px; }
 .post-card { margin: 10px 15px 0; padding: 12px; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; }
 .post-card header { display: flex; align-items: center; gap: 8px; }
 .post-card header b { font-size: 11px; }
