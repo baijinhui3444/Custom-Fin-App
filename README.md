@@ -12,6 +12,17 @@ python3 -m http.server 4173
 
 然后访问 <http://127.0.0.1:4173>。
 
+## Android APK
+
+仓库根目录的 `金脉金融私域Demo-debug.apk` 是可直接安装到 Android 手机的离线演示包。APK 内置 H5 页面和图片资源，不依赖网络；消息中心的“随机发送一条”会同步触发本地页面消息和 Android 系统通知。
+
+重新构建 APK：
+
+```bash
+gradle -p android assembleDebug
+cp android/app/build/outputs/apk/debug/app-debug.apk 金脉金融私域Demo-debug.apk
+```
+
 ## GitHub Pages
 
 页面没有构建依赖，入口为 `index.html`。最简单的方式是把本目录内容放到仓库根目录，或复制到仓库的 `docs/` 目录后，在 GitHub Pages 设置中选择 `main` 分支对应目录发布；也可以使用 GitHub Actions 将本目录部署到 Pages。
