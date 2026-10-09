@@ -12,7 +12,7 @@ function setCareMode(enabled) {
   if (button) { button.classList.toggle('active', enabled); button.setAttribute('aria-pressed', String(enabled)); }
 }
 
-const state = { tab: 'home', circle: null, circleView: 'feed', circleCategory: '全部', moreOpen: false, security: false, ai: false, aiMessages: [], liveSection: '互动', toast: null, joined: new Set(), reminders: new Set(), booked: false, notifications: new Set(['圈主更新', '评论互动', '任务提醒']), liveCart: new Set(), couponClaimed: false };
+const state = { tab: 'home', circle: null, circleView: 'feed', circleCategory: '全部', moreOpen: false, security: false, ai: false, aiMessages: [], liveSection: '互动', toast: null, joined: new Set(), reminders: new Set(), booked: false, notifications: new Set(['圈主更新', '评论互动', '任务提醒']), liveCart: new Set(), couponClaimed: false, demoMessages: [], unreadMessages: 3 };
 
 const circles = [
   { id: 'research', icon: '研', tone: '', image: 'assets/circle-research.jpg', title: '每日投研 · 盘面拆解', desc: '盘前策略 / 盘中观点 / 收盘复盘', members: '12,860', active: '今日 38 条动态', post: '王老师：午后关注新能源与券商板块的量能变化。' },
@@ -38,6 +38,15 @@ const circleMembers = [
   ['新加入用户', '今日加入', '等待完成首个学习任务'],
 ];
 const notificationItems = ['圈主更新', '评论互动', '提问回答', '被回答', '被评论', '被私信', '任务提醒'];
+const realtimeDemoMessages = [
+  ['⚡', '盘中异动提醒', '新能源板块午后放量上行，相关自选标的出现明显波动，请关注风险。'],
+  ['▤', '研报更新', '《消费行业月度跟踪》已更新，重点摘要与配置观察已同步至投研中心。'],
+  ['◷', '直播即将开始', '收盘复盘将在 20:00 开始，讲师将解读量能变化与仓位节奏。'],
+  ['!', '风险提示', '市场波动加大，投资者请结合自身风险承受能力审慎决策。'],
+  ['◉', '圈子新观点', '林老师在每日投研圈发布了盘中观点，点击进入文字直播间参与讨论。'],
+  ['▣', '课程进度提醒', '《趋势技能提升营》第 6 讲回放已更新，完成学习可解锁课后资料。'],
+  ['↗', '行业快讯', '券商板块出现异动，研究中心已整理影响因素与后续观察指标。'],
+];
 
 function icon(name) { return `<span aria-hidden="true">${name}</span>`; }
 function shell(title, subtitle = '', options = {}) {
@@ -45,7 +54,7 @@ function shell(title, subtitle = '', options = {}) {
 }
 function bottomNav() {
   const items = [['home', '⌂', '首页'], ['learning', '▣', '学习'], ['circles', '◉', '圈子'], ['market', '⌁', '投研'], ['messages', '♢', '消息'], ['profile', '○', '我的']];
-  return `<nav class="bottom-nav">${items.map(([id, glyph, label]) => `<button class="${state.tab === id ? 'active' : ''}" data-tab="${id}">${icon(glyph)}${label}${id === 'messages' ? '<b class="badge">3</b>' : ''}</button>`).join('')}</nav>`;
+  return `<nav class="bottom-nav">${items.map(([id, glyph, label]) => `<button class="${state.tab === id ? 'active' : ''}" data-tab="${id}">${icon(glyph)}${label}${id === 'messages' ? `<b class="badge">${state.unreadMessages}</b>` : ''}</button>`).join('')}</nav>`;
 }
 
 function course() {
@@ -63,7 +72,7 @@ function lesson() {
 }
 
 function home() {
-  return `<div class="screen">${shell('金脉', '自主品牌 · 私域服务中枢', { action: `<button class="icon-btn" data-tab="messages" aria-label="查看消息">♢<b class="badge">3</b></button>` })}
+  return `<div class="screen">${shell('金脉', '自主品牌 · 私域服务中枢', { action: `<button class="icon-btn" data-tab="messages" aria-label="查看消息">♢<b class="badge">${state.unreadMessages}</b></button>` })}
     <section class="home-hero"><div class="home-hero-content"><small>今日直播 · 预约提醒</small><h1>从市场观点，到持续陪伴</h1><p>让每一次直播、课程和投研观点，都沉淀为可持续运营的用户关系。</p><button data-action="live">进入直播间　›</button></div></section>
     <div class="notice"><b>重要通知</b><span>本周策略会议预约已开启，直播开始前 15 分钟提醒</span></div>
     <section class="section"><div class="section-head"><h3>私域服务</h3><button class="more" data-tab="circles">查看全部 ›</button></div><div class="quick-grid"><button class="quick" data-tab="circles"><i>◉</i>我的圈子</button><button class="quick" data-action="live"><i>◷</i>直播预约</button><button class="quick" data-tab="messages"><i>♢</i>消息中心</button><button class="quick" data-tab="profile"><i>★</i>会员权益</button></div><button class="ai-entry" data-action="open-ai"><span class="ai-entry-icon">AI</span><div><b>AI 服务助手</b><p>内容检索、学习辅助与人工服务引导</p></div><strong>体验　›</strong></button><button class="course-promo" data-tab="learning"><span class="course-promo-image"></span><div><b>学习中心</b><span>课程、训练营与学习进度</span></div><strong>继续学习　›</strong></button></section>
@@ -98,7 +107,9 @@ function notificationSettings() {
 
 function messages() {
   const list = [['◷', '直播提醒', '收盘复盘将在 20:00 开始，提前进入可参与提问。', '刚刚'], ['◉', '圈子动态', '林老师在“每日投研 · 盘面拆解”发布了新观点。', '8分钟前'], ['▣', '课程更新', '趋势技能提升营第 6 讲回放已更新，点击继续学习。', '1小时前'], ['★', '服务通知', '你的高阶会员权益将在 12 天后到期。', '昨天']];
-  return `<div class="screen">${shell('消息中心', '你的内容、圈子与服务提醒', { light: true, action: '<button class="icon-btn" data-action="toast" data-message="已全部标记为已读">✓</button>' })}<div class="message-list">${list.map(([glyph, title, copy, time]) => `<button class="message" data-action="toast" data-message="已打开：${title}"><div class="message-icon">${glyph}</div><div><b>${title}</b><p>${copy}</p></div><time>${time}</time></button>`).join('')}</div><section class="section"><div class="section-head"><h3>IM 服务</h3><span class="status-chip status-chip--green">可接入</span></div><div class="im-grid"><button data-action="toast" data-message="顾问单聊为演示入口，可接入客户顾问服务系统"><i>顾</i><b>联系顾问</b><span>一对一服务</span></button><button data-action="toast" data-message="课程群聊为演示入口，可接入课程与会员群"><i>群</i><b>课程群聊</b><span>学员交流</span></button><button data-action="toast" data-message="文字直播间为演示入口，可接入直播聊天室与讲师答疑"><i>聊</i><b>文字直播间</b><span>实时互动</span></button><button data-action="toast" data-message="人工转接为演示入口，可按客户 SOP 分流"><i>人</i><b>人工转接</b><span>服务分流</span></button></div></section><section class="section"><div class="section-head"><h3>触达设置</h3></div><div class="setting-list"><button class="setting" data-action="toast" data-message="直播提醒已开启">直播与预约提醒 <span>已开启　›</span></button><button class="setting" data-action="toast" data-message="圈子动态提醒已开启">圈子动态提醒 <span>已开启　›</span></button><button class="setting" data-action="toast" data-message="课程更新提醒已开启">课程与服务提醒 <span>已开启　›</span></button></div></section>${bottomNav()}</div>`;
+  const demoList = state.demoMessages.map(item => [item.glyph, item.title, item.copy, item.time]);
+  const allMessages = [...demoList, ...list];
+  return `<div class="screen">${shell('消息中心', '你的内容、圈子与服务提醒', { light: true, action: '<button class="icon-btn" data-action="toast" data-message="已全部标记为已读">✓</button>' })}<div class="message-list">${allMessages.map(([glyph, title, copy, time]) => `<button class="message" data-action="toast" data-message="已打开：${title}"><div class="message-icon">${glyph}</div><div><b>${title}</b><p>${copy}</p></div><time>${time}</time></button>`).join('')}</div><section class="section"><div class="section-head"><h3>IM 服务</h3><span class="status-chip status-chip--green">可接入</span></div><div class="im-grid"><button data-action="toast" data-message="顾问单聊为演示入口，可接入客户顾问服务系统"><i>顾</i><b>联系顾问</b><span>一对一服务</span></button><button data-action="toast" data-message="课程群聊为演示入口，可接入课程与会员群"><i>群</i><b>课程群聊</b><span>学员交流</span></button><button data-action="toast" data-message="文字直播间为演示入口，可接入直播聊天室与讲师答疑"><i>聊</i><b>文字直播间</b><span>实时互动</span></button><button data-action="toast" data-message="人工转接为演示入口，可按客户 SOP 分流"><i>人</i><b>人工转接</b><span>服务分流</span></button></div></section><section class="section"><div class="section-head"><h3>测试推送</h3><button class="more" data-action="test-message">随机发送一条</button></div><p class="security-note">模拟盘中快讯、直播提醒、研报更新和风险提示，消息会插入列表并更新未读数。</p></section><section class="section"><div class="section-head"><h3>触达设置</h3></div><div class="setting-list"><button class="setting" data-action="toast" data-message="直播提醒已开启">直播与预约提醒 <span>已开启　›</span></button><button class="setting" data-action="toast" data-message="圈子动态提醒已开启">圈子动态提醒 <span>已开启　›</span></button><button class="setting" data-action="toast" data-message="课程更新提醒已开启">课程与服务提醒 <span>已开启　›</span></button></div></section>${bottomNav()}</div>`;
 }
 
 function market() {
@@ -172,6 +183,14 @@ document.addEventListener('click', event => {
     if (action.dataset.action === 'circle-category') { state.circleCategory = action.dataset.category; render(); return; }
     if (action.dataset.action === 'more-circle') { state.moreOpen = !state.moreOpen; render(); return; }
     if (action.dataset.action === 'circle-search') { state.toast = '搜索为演示入口，可接入圈子内容与成员搜索'; render(); return; }
+    if (action.dataset.action === 'test-message') {
+      const [glyph, title, copy] = realtimeDemoMessages[Math.floor(Math.random() * realtimeDemoMessages.length)];
+      state.demoMessages.unshift({ glyph, title, copy, time: '刚刚' });
+      state.unreadMessages += 1;
+      state.toast = `已推送：${title}`;
+      render();
+      return;
+    }
     if (action.dataset.action === 'toggle-notification') { const key = action.dataset.notification; state.notifications.has(key) ? state.notifications.delete(key) : state.notifications.add(key); render(); return; }
     if (action.dataset.action === 'back-learning') { state.courseId = null; state.lesson = false; state.tab = 'learning'; render(); return; }
     if (action.dataset.action === 'back-course') { state.lesson = false; state.courseId = 'trend'; render(); return; }
