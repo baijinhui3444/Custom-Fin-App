@@ -428,3 +428,12 @@ button:focus-visible { outline: 3px solid rgba(39, 102, 216, .28); outline-offse
   .phone-frame { width: min(414px, 100vw); height: 100svh; min-height: 680px; margin: 0 auto; border-width: 0; border-radius: 0; box-shadow: none; }
   .phone-notch { top: 0; }
 }
+
+/* Android WebView uses the device status bar, not the browser mockup chrome. */
+:root.android-app body { display: block; background: var(--canvas); }
+:root.android-app .demo-shell { display: block; min-height: 100vh; padding: 0; }
+:root.android-app .context-panel,
+:root.android-app .phone-notch,
+:root.android-app .phone-status { display: none; }
+:root.android-app .phone-frame { width: 100vw; height: 100vh; min-height: 0; margin: 0; border: 0; border-radius: 0; box-shadow: none; }
+:root.android-app .hero-bar { min-height: 64px; padding: 15px 17px 14px; }

@@ -25,7 +25,11 @@ public class MainActivity extends Activity {
         settings.setAllowContentAccess(true);
         settings.setBuiltInZoomControls(false);
         webView.addJavascriptInterface(new AndroidBridge(), "AndroidBridge");
-        webView.setWebViewClient(new WebViewClient());
+        webView.setWebViewClient(new WebViewClient() {
+            @Override public void onPageFinished(WebView view, String url) {
+                view.evaluateJavascript("document.documentElement.classList.add('android-app')", null);
+            }
+        });
         webView.loadUrl("file:///android_asset/index.html");
         setContentView(webView);
         if (Build.VERSION.SDK_INT >= 33 && checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
