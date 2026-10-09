@@ -12,7 +12,9 @@ function setCareMode(enabled) {
   if (button) { button.classList.toggle('active', enabled); button.setAttribute('aria-pressed', String(enabled)); }
 }
 
-const state = { tab: 'home', circle: null, circleView: 'feed', circleCategory: '全部', moreOpen: false, security: false, auth: false, authMode: 'login', ai: false, aiMessages: [], liveSection: '互动', toast: null, joined: new Set(), reminders: new Set(), booked: false, notifications: new Set(['圈主更新', '评论互动', '任务提醒']), liveCart: new Set(), couponClaimed: false, demoMessages: [], unreadMessages: 3 };
+const AUTH_STORAGE_KEY = 'jinmai-demo-auth';
+const hasDemoLogin = () => window.localStorage.getItem(AUTH_STORAGE_KEY) === '1';
+const state = { tab: 'home', circle: null, circleView: 'feed', circleCategory: '全部', moreOpen: false, security: false, auth: !hasDemoLogin(), authMode: 'login', ai: false, aiMessages: [], liveSection: '互动', toast: null, joined: new Set(), reminders: new Set(), booked: false, notifications: new Set(['圈主更新', '评论互动', '任务提醒']), liveCart: new Set(), couponClaimed: false, demoMessages: [], unreadMessages: 3 };
 
 const circles = [
   { id: 'research', icon: '研', tone: '', image: 'assets/circle-research.jpg', title: '每日投研 · 盘面拆解', desc: '盘前策略 / 盘中观点 / 收盘复盘', members: '12,860', active: '今日 38 条动态', post: '王老师：午后关注新能源与券商板块的量能变化。' },
@@ -132,7 +134,7 @@ function aiAssistant() {
 }
 
 function profile() {
-  return `<div class="screen">${shell('我的', '用户、权益与服务', { light: true, action: '<button class="icon-btn" aria-label="打开设置" data-action="toast" data-message="设置已打开">⚙</button>' })}<div class="profile"><div class="profile-card"><div class="profile-avatar">白</div><div><h3>白金用户</h3><p>已加入 3 个圈子　·　连续学习 18 天</p></div></div><div class="member-card"><b>高阶会员服务</b><p>专属圈子、策略会议、投研资料和 1V1 答疑</p><button data-action="toast" data-message="会员权益页已打开">查看我的权益　›</button></div><div class="setting-list"><button class="setting" data-tab="circles">我的圈子 <span>3 个　›</span></button><button class="setting" data-tab="learning">我的课程 <span>6 门　›</span></button><button class="setting" data-tab="messages">消息设置 <span>3 条未读　›</span></button><button class="setting" data-action="security">隐私与合规 <span>安全中心　›</span></button><button class="setting" data-action="open-auth">登录与注册 <span>本地演示　›</span></button></div></div>${bottomNav()}</div>`;
+  return `<div class="screen">${shell('我的', '用户、权益与服务', { light: true, action: '<button class="icon-btn" aria-label="打开设置" data-action="toast" data-message="设置已打开">⚙</button>' })}<div class="profile"><div class="profile-card"><div class="profile-avatar">白</div><div><h3>白金用户</h3><p>本地演示账号　·　已加入 3 个圈子</p></div></div><div class="member-card"><b>高阶会员服务</b><p>专属圈子、策略会议、投研资料和 1V1 答疑</p><button data-action="toast" data-message="会员权益页已打开">查看我的权益　›</button></div><div class="setting-list"><button class="setting" data-tab="circles">我的圈子 <span>3 个　›</span></button><button class="setting" data-tab="learning">我的课程 <span>6 门　›</span></button><button class="setting" data-tab="messages">消息设置 <span>3 条未读　›</span></button><button class="setting" data-action="security">隐私与合规 <span>安全中心　›</span></button><button class="setting" data-action="logout">退出登录 <span>清除本地登录态　›</span></button></div></div>${bottomNav()}</div>`;
 }
 
 function security() {
@@ -146,8 +148,8 @@ function live() {
 }
 
 function render() {
-  if (state.ai) app.innerHTML = aiAssistant();
-  else if (state.auth) app.innerHTML = authScreen();
+  if (state.auth) app.innerHTML = authScreen();
+  else if (state.ai) app.innerHTML = aiAssistant();
   else if (state.security) app.innerHTML = security();
   else if (state.circleView === 'notifications') app.innerHTML = notificationSettings();
   else if (state.circleView !== 'feed') app.innerHTML = circleView(state.circleView);
@@ -179,9 +181,10 @@ document.addEventListener('click', event => {
     if (action.dataset.action === 'toggle-care') { setCareMode(!document.body.classList.contains('care-mode')); return; }
     if (action.dataset.action === 'open-ai') { state.ai = true; state.circle = null; state.courseId = null; state.lesson = false; render(); return; }
     if (action.dataset.action === 'open-auth') { state.auth = true; state.authMode = 'login'; render(); return; }
-    if (action.dataset.action === 'back-auth') { state.auth = false; state.tab = 'profile'; render(); return; }
+    if (action.dataset.action === 'back-auth') { if (hasDemoLogin()) { state.auth = false; state.tab = 'profile'; } render(); return; }
     if (action.dataset.action === 'auth-switch') { state.authMode = state.authMode === 'login' ? 'register' : 'login'; render(); return; }
-    if (action.dataset.action === 'auth-submit') { state.auth = false; state.tab = 'profile'; state.toast = state.authMode === 'register' ? '演示账号已注册并登录' : '演示登录成功'; render(); return; }
+    if (action.dataset.action === 'auth-submit') { window.localStorage.setItem(AUTH_STORAGE_KEY, '1'); state.auth = false; state.tab = 'home'; state.toast = state.authMode === 'register' ? '演示账号已注册并登录' : '演示登录成功'; render(); return; }
+    if (action.dataset.action === 'logout') { window.localStorage.removeItem(AUTH_STORAGE_KEY); state.auth = true; state.authMode = 'login'; state.tab = 'home'; state.toast = null; render(); return; }
     if (action.dataset.action === 'back-ai') { state.ai = false; render(); return; }
     if (action.dataset.action === 'ai-prompt') { state.aiMessages.push([action.dataset.question, action.dataset.answer]); render(); return; }
     if (action.dataset.action === 'back') { state.circle = null; state.circleView = 'feed'; state.tab = 'circles'; render(); return; }
