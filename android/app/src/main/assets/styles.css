@@ -390,7 +390,7 @@ button:focus-visible { outline: 3px solid rgba(39, 102, 216, .28); outline-offse
 .auth-panel h3 { margin: 0 0 6px; font-size: 19px; }
 .auth-panel label { display: grid; gap: 6px; margin: 14px 0; color: var(--ink); font-size: 11px; font-weight: 700; }
 .auth-input { width: 100%; padding: 12px; color: var(--ink); background: var(--surface); border: 1px solid var(--line); border-radius: 7px; font: inherit; box-sizing: border-box; }
-.auth-submit { width: 100%; margin-top: 10px; border: 0; }
+.auth-submit { width: 100%; margin: 10px 0 0; border: 0; }
 .auth-switch { width: 100%; margin-top: 14px; padding: 8px; color: var(--blue); background: transparent; border: 0; font-size: 11px; }
 .profile-avatar { width: 43px; height: 43px; display: grid; place-items: center; color: var(--navy); background: #f5d486; border-radius: 50%; font-size: 16px; font-weight: 900; }
 .profile-card h3 { margin: 0; font-size: 15px; }
